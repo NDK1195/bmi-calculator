@@ -1,13 +1,27 @@
 import { useState } from "react";
+import Result from "./Result";
+import MeasureRadio from "./MeasureRadio";
 
 function BMIForm() {
   const [activeRadio, setActiveRadio] = useState("metric");
-  const [height, setHeight] = useState(null);
-  const [weight, setWeight] = useState(null);
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
 
-  function handleChangeRadio(event) {
-    setActiveRadio(event.target.value);
+  function handleHeightChange(event) {
+    setHeight(event.target.value);
   }
+
+  function handleWeightChange(event) {
+    setWeight(event.target.value);
+  }
+
+  const imperialHeight = height / 2.54;
+  const feet = Math.floor(imperialHeight / 12);
+  const inches = (imperialHeight - feet * 12).toFixed(1);
+
+  const imperialWeight = weight * 0.157473;
+  const st = Math.floor(imperialWeight);
+  const lbs = (imperialWeight * 14 - st * 14).toFixed(1);
 
   return (
     <div className="flex w-full flex-col gap-6 rounded-2xl bg-white p-6 shadow-box md:gap-8 md:p-8 lg:mt-[92px] lg:max-w-[564px]">
@@ -15,58 +29,7 @@ function BMIForm() {
         Enter your details below
       </h2>
       {/* radio */}
-      <div className="grid grid-cols-2 gap-6">
-        {/* one radio */}
-        <div className="group flex items-center gap-[18px]">
-          <div className="grid place-items-center">
-            <input
-              type="radio"
-              name="measure-option"
-              id="metric"
-              value="metric"
-              className={`${activeRadio === "metric" ? "bg-blue bg-opacity-15" : "border-[#6C9AA3]"} col-start-1 row-start-1 size-[31px] appearance-none rounded-full border hover:cursor-pointer group-hover:border-blue`}
-              checked={activeRadio === "metric"}
-              onChange={handleChangeRadio}
-            />
-            {/* active radio style */}
-            {activeRadio === "metric" && (
-              <div className="col-start-1 row-start-1 size-[15.5px] rounded-full bg-blue"></div>
-            )}
-            {/* active radio style */}
-          </div>
-          <label
-            htmlFor="metric"
-            className="font-semibold leading-6 text-gunmetal hover:cursor-pointer"
-          >
-            Metric
-          </label>
-        </div>
-        {/* one radio */}
-        <div className="group flex items-center gap-[18px]">
-          <div className="grid place-items-center">
-            <input
-              type="radio"
-              name="measure-option"
-              id="imperial"
-              value="imperial"
-              className={`${activeRadio === "imperial" ? "bg-blue bg-opacity-15" : "border-[#6C9AA3]"} col-start-1 row-start-1 size-[31px] appearance-none rounded-full border hover:cursor-pointer group-hover:border-blue`}
-              checked={activeRadio === "imperial"}
-              onChange={handleChangeRadio}
-            />
-            {/* active radio style */}
-            {activeRadio === "imperial" && (
-              <div className="col-start-1 row-start-1 size-[15.5px] rounded-full bg-blue"></div>
-            )}
-            {/* active radio style */}
-          </div>
-          <label
-            htmlFor="imperial"
-            className="font-semibold leading-6 text-gunmetal hover:cursor-pointer"
-          >
-            Imperial
-          </label>
-        </div>
-      </div>
+      <MeasureRadio activeRadio={activeRadio} setActiveRadio={setActiveRadio} />
       {/* radio */}
 
       {/* input metric */}
@@ -86,8 +49,10 @@ function BMIForm() {
                 type="text"
                 id="height"
                 value={height}
+                maxLength={3}
                 className="w-full text-2xl font-bold leading-none tracking-[-1.2px] text-gunmetal outline-none placeholder:text-dark-electric-blue"
                 placeholder="0"
+                onChange={handleHeightChange}
               />
               <span className="text-2xl font-bold leading-none tracking-[-1.2px] text-blue">
                 cm
@@ -110,8 +75,10 @@ function BMIForm() {
                 type="text"
                 id="weight"
                 value={weight}
+                maxLength={3}
                 className="w-full text-2xl font-bold leading-none tracking-[-1.2px] text-gunmetal outline-none placeholder:text-dark-electric-blue"
                 placeholder="0"
+                onChange={handleWeightChange}
               />
               <span className="text-2xl font-bold leading-none tracking-[-1.2px] text-blue">
                 kg
@@ -122,7 +89,6 @@ function BMIForm() {
           {/* input group */}
         </div>
       )}
-
       {/* input metric */}
 
       {/* input imperial */}
@@ -142,7 +108,7 @@ function BMIForm() {
                 <input
                   type="text"
                   id="height"
-                  value=""
+                  value={feet}
                   className="w-full text-2xl font-bold leading-none tracking-[-1.2px] text-gunmetal outline-none placeholder:text-dark-electric-blue"
                   placeholder="0"
                 />
@@ -157,7 +123,7 @@ function BMIForm() {
                 <input
                   type="text"
                   id="height"
-                  value=""
+                  value={inches}
                   className="w-full text-2xl font-bold leading-none tracking-[-1.2px] text-gunmetal outline-none placeholder:text-dark-electric-blue"
                   placeholder="0"
                 />
@@ -184,7 +150,7 @@ function BMIForm() {
                 <input
                   type="text"
                   id="weight"
-                  value=""
+                  value={st}
                   className="w-full text-2xl font-bold leading-none tracking-[-1.2px] text-gunmetal outline-none placeholder:text-dark-electric-blue"
                   placeholder="0"
                 />
@@ -199,7 +165,7 @@ function BMIForm() {
                 <input
                   type="text"
                   id="weight"
-                  value=""
+                  value={lbs}
                   className="w-full text-2xl font-bold leading-none tracking-[-1.2px] text-gunmetal outline-none placeholder:text-dark-electric-blue"
                   placeholder="0"
                 />
@@ -216,18 +182,7 @@ function BMIForm() {
       {/* input imperial */}
 
       {/* result */}
-      <div className="grid grid-cols-1 gap-6 rounded-2xl bg-blue p-8 text-white md:grid-cols-2 md:rounded-br-[999px] md:rounded-tr-[999px]">
-        <div>
-          <p className="font-semibold leading-normal">Your BMI is...</p>
-          <span className="text-5xl font-semibold leading-[110%] tracking-[-2.4px] lg:text-[64px] lg:tracking-[-3.2px]">
-            23.4
-          </span>
-        </div>
-        <p className="self-center text-sm leading-normal">
-          Your BMI suggests you’re a healthy weight. Your ideal weight is
-          between <span className="font-bold">63.3kgs - 85.2kgs.</span>
-        </p>
-      </div>
+      <Result weight={weight} height={height} activeRadio={activeRadio} />
       {/* result */}
     </div>
   );
