@@ -1,5 +1,5 @@
-import BMIForm from "./BMIForm";
 import logo from "../images/logo.svg";
+import BMIForm from "./BMIForm";
 
 function Header() {
   return (
