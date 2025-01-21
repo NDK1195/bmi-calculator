@@ -8,20 +8,10 @@ This is a solution to the [Body Mass Index Calculator challenge on Frontend Ment
 
 ### Links
 
-- Solution URL: [Solution URL here](https://github.com/NDK1195/intro-component-with-signup-form)
-- Live Site URL: [Live site URL here](https://intro-component-with-signup-form-blue-tau.vercel.app/)
+- Solution URL: [Solution URL here](https://github.com/NDK1195/bmi-calculator)
+- Live Site URL: [Live site URL here](https://bmi-calculator-sandy-five.vercel.app/)
 
 ### Built with
 
 - React
 - Tailwind CSS
-
-### The challenge
-
-Users should be able to:
-
-- Select whether they want to use metric or imperial units
-- Enter their height and weight
-- See their BMI result, with their weight classification and healthy weight range
-- View the optimal layout for the interface depending on their device's screen size
-- See hover and focus states for all interactive elements on the page
